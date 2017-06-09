@@ -28,6 +28,7 @@ import (
 	"weibo.com/opendcp/jupiter/service/bill"
 	"weibo.com/opendcp/jupiter/service/cluster"
 	"weibo.com/opendcp/jupiter/service/instance"
+	"strconv"
 )
 
 // Operations about cluster
@@ -40,7 +41,9 @@ type ClusterController struct {
 // @router / [get]
 func (clusterController *ClusterController) GetClusters() {
 	resp := ApiResponse{}
-	theCluster, err := cluster.ListClusters()
+	bizId, _ := strconv.Atoi(clusterController.Input().Get("bizId"))
+	beego.Info("---------",bizId)
+	theCluster, err := cluster.ListClusters(bizId)
 	if err != nil {
 		beego.Error("get one cluster err: ", err)
 		clusterController.RespServiceError(err)

@@ -130,8 +130,8 @@ func Expand(cluster *models.Cluster, num int, correlationId string) ([]string, e
 	return instanceIds, nil
 }
 
-func ListClusters() ([]models.Cluster, error) {
-	clusters, err := dao.GetClusters()
+func ListClusters(bizId int) ([]models.Cluster, error) {
+	clusters, err := dao.GetClusters(bizId)
 	if err != nil {
 		return nil, err
 	}

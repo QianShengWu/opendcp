@@ -17,11 +17,10 @@
  *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA
  */
 
-
-
 package dao
 
 import (
+	"github.com/astaxie/beego"
 	"weibo.com/opendcp/jupiter/models"
 )
 
@@ -85,13 +84,15 @@ func DeleteCluster(clusterId int64) (bool, error) {
 	return true, nil
 }
 
-func GetClusters() ([]models.Cluster, error) {
+func GetClusters(bizId int) ([]models.Cluster, error) {
 	o := GetOrmer()
 	var clusters []models.Cluster
-	_, err := o.QueryTable(CLUSTER_TABLE).RelatedSel().OrderBy("-id").All(&clusters)
+	beego.Info("++++++++++++++++", bizId)
+	_, err := o.QueryTable(CLUSTER_TABLE).RelatedSel().Filter("biz_id", bizId).OrderBy("-id").All(&clusters)
 	if err != nil {
 		return nil, err
 	}
+	beego.Info("+++++++++++++", clusters)
 	return clusters, nil
 }
 
